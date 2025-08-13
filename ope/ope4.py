@@ -15,7 +15,7 @@ class Car:
         print(f"Год: {self.year}, Объем двигателя: {self.engine}, Багажник: {self.trunk}")
 
 class Sedan(Car):
-    # Можно не писать __init__, используем базовый
+
     def info(self):
         print(f"Sedan - Год: {self.year}, Объем двигателя: {self.engine}, Багажник: {self.trunk}")
 
