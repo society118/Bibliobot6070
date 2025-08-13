@@ -6,7 +6,7 @@ class Car:
     num_doors = 0
     horsepower = 0
 
-    def init(self, trunk, engine, year):
+    def __init__(self, trunk, engine, year):
         self.trunk = trunk
         self.engine = engine
         self.year = year
@@ -15,12 +15,13 @@ class Car:
         print(f"Год: {self.year}, Объем двигателя: {self.engine}, Багажник: {self.trunk}")
 
 class Sedan(Car):
+    # Можно не писать __init__, используем базовый
     def info(self):
         print(f"Sedan - Год: {self.year}, Объем двигателя: {self.engine}, Багажник: {self.trunk}")
 
 class Jeep(Car):
-    def init(self , trunk, engine, year, max_speed, num_doors, horsepower):
-        super().init(trunk, engine, year)
+    def __init__(self , trunk, engine, year, max_speed, num_doors, horsepower):
+        super().__init__(trunk, engine, year)
         self.max_speed = max_speed
         self.num_doors = num_doors
         self.horsepower = horsepower
@@ -29,8 +30,8 @@ class Jeep(Car):
         print(f"Jeep - Год: {self.year}, Объем двигателя: {self.engine}, Багажник: {self.trunk}, "
               f"Макс. скорость: {self.max_speed}, Дверей: {self.num_doors}, Лошадиные силы: {self.horsepower}")
 
-sedan1 =Sedan(550,2,2009)
-jeep1 = Jeep(1300,1.5,2015 , 220 , 4 , 72 , )
+sedan1 = Sedan(550, 2, 2009)
+jeep1 = Jeep(1300, 1.5, 2015, 220, 4, 72)
 
 sedan1.info()
 jeep1.info()
