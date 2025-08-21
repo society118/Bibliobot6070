@@ -42,7 +42,7 @@ class Book:
 
 
 
-TOKEN = BOT_TOKEN
+TOKEN = BOT_TOKEN #Наш токен
 dp = Dispatcher()
 
 
