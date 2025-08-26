@@ -12,6 +12,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, URLInputFile, ReplyKeyboardMarkup, ReplyKeyboardRemove
+import cohere
 from commands import (
 BOOKS_CREATE_COMMAND,
     START_BOT_COMMAND,
@@ -165,6 +166,27 @@ async def callback_book(callback: CallbackQuery, callback_data: BookCallback) ->
     await callback.answer()
 
 
+def generate_text(prompt):
+    co = cohere.ClientV2(api_key="fVHBPOpecGhg864OTKYkFikoZWx3Ujr8PPRRkkmx")
+    res = co.chat(
+    model="command-a-03-2025",
+messages=[
+{
+"role": "user",
+"content": f"{prompt}",
+}
+],
+)
+    return res.message.content[0].text
+
+
+@dp.message()
+async def echo_handler(message: Message):
+    user_input = message.text
+    await message.answer(f"Спасибо{message.from_user.full_name}"
+    f"Генерирую ответ, подожди...")
+    generated_text = generate_text(user_input)
+    await message.answer(generated_text)
 
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
