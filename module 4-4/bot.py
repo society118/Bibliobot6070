@@ -11,6 +11,7 @@ from aiogram import Bot, Dispatcher, html
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
+from models import Book
 from aiogram.types import Message, CallbackQuery, URLInputFile, ReplyKeyboardMarkup, ReplyKeyboardRemove
 import cohere
 from commands import (
@@ -20,27 +21,6 @@ BOOKS_CREATE_COMMAND,
     BOOKS_BOT_CREATE_COMMAND,
     BOOKS_COMMAND,
 )
-
-
-
-
-class Book:
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        rating: float,
-        genre: str,
-        authors: list[str],
-        poster: str | None = None,
-    ):
-        self.name = name
-        self.description = description
-        self.rating = rating
-        self.genre = genre
-        self.authors = authors
-        self.poster = poster
-
 
 
 TOKEN = BOT_TOKEN #Наш токен!!!
@@ -125,13 +105,14 @@ async def book_authors(message: Message, state: FSMContext) -> None:
     await state.set_state(BookForm.poster)
     await message.answer("Введите ссылку на обложку книги.", reply_markup=ReplyKeyboardRemove())
 
-@dp.message(BookForm.poster)
-async def book_poster(message:Message,state:FSMContext)-> None:
-    data = await  state.update_data(poster=message.text)
-    book = Book(**data)
-    add_books(book.model_dump())
-    await state.clear()
-    await message.answer(f"Книгу {book.name} успешно добавленно ", reply_markup=ReplyKeyboardRemove())
+dp.message(BookForm.poster)
+async def book_poster(message: Message, state: FSMContext) -> None:
+   data = await state.update_data(poster=message.text)
+   book = Book(**data)
+   add_books(book.model_dump())
+   await state.clear()
+   await message.answer(f"Книгу {book.name} успішно додано",
+       reply_markup=ReplyKeyboardRemove())
 
 
 @dp.callback_query(BookCallback.filter())
